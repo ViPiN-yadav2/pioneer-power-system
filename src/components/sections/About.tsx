@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Button from "@/components/ui/Button";
+// import Button from "@/components/ui/Button";
 
 const About: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
