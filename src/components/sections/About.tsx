@@ -1,39 +1,49 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 
 const About: React.FC = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
   const values = [
     {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="#000000" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      ),
+      icon: "⚡",
+      iconBg: "bg-blue-500",
+      date: "2024",
       title: "Innovation",
       description: "Cutting-edge technology solutions",
-      gradient: "from-primary-500 to-primary-600",
+      gradient: "from-blue-500 via-cyan-500 to-blue-600",
+      pattern: "dots-blue-yellow",
     },
     {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="#000000" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      ),
+      icon: "🛡️",
+      iconBg: "bg-amber-500",
+      date: "2024",
       title: "Reliability",
       description: "Trusted by 120+ institutions",
-      gradient: "from-accent-500 to-accent-600",
+      gradient: "from-amber-500 via-orange-500 to-amber-600",
+      pattern: "stripes-orange-yellow",
     },
     {
-      icon: (
-        <svg className="w-8 h-8" fill="none" stroke="#000000" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
+      icon: "🌱",
+      iconBg: "bg-emerald-500",
+      date: "2024",
       title: "Sustainability",
       description: "Eco-friendly energy solutions",
-      gradient: "from-success-500 to-success-600",
+      gradient: "from-emerald-500 via-green-500 to-emerald-600",
+      pattern: "dots-green",
     },
   ];
 
@@ -67,36 +77,71 @@ const About: React.FC = () => {
     },
   ];
 
+  const achievements = [
+    {
+      icon: "🏦",
+      iconBg: "bg-purple-500",
+      label: "25+ Years",
+      title: "Trusted Banking Partner",
+      location: "Exclusive UPS solutions for the banking sector for over 25 years—a proven track record in critical power backup.",
+      pattern: "wavy-lines-purple",
+    },
+    {
+      icon: "🛒",
+      iconBg: "bg-blue-500",
+      label: "End-to-End",
+      title: "Sales & Service Under One Roof",
+      location: "One-stop solution: we sell online UPS and provide full after-sales service, so you get both purchase and support from us.",
+      pattern: "dots-blue-yellow",
+    },
+    {
+      icon: "📋",
+      iconBg: "bg-amber-500",
+      label: "Flexible",
+      title: "Hire Solutions for Power Backup",
+      location: "UPS and batteries available on hire—ideal for events, projects, or temporary needs without long-term commitment.",
+      pattern: "stripes-orange-yellow",
+    },
+    {
+      icon: "🔌",
+      iconBg: "bg-emerald-500",
+      label: "1–20 KVA",
+      title: "Wide Rental Range",
+      location: "UPS on rent from 1 to 20 KVA—covering small offices to larger setups with a range that fits every requirement.",
+      pattern: "dots-green",
+    },
+  ];
+
   const stats = [
     {
       value: "15+",
       label: "Years of Power Industry Expertise",
       icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#000000" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      gradient: "from-primary-500 to-primary-600",
+      gradient: "from-blue-500 via-cyan-500 to-blue-600",
     },
     {
       value: "120+",
       label: "Banks & Institutions Served",
       icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#000000" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
         </svg>
       ),
-      gradient: "from-accent-500 to-accent-600",
+      gradient: "from-amber-500 via-orange-500 to-amber-600",
     },
     {
       value: "500+",
       label: "Projects Completed",
       icon: (
-        <svg className="w-6 h-6" fill="none" stroke="#000000" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      gradient: "from-primary-500 to-accent-500",
+      gradient: "from-emerald-500 via-green-500 to-emerald-600",
     },
   ];
 
@@ -137,7 +182,7 @@ const About: React.FC = () => {
                   key={index}
                   className="group flex items-start gap-4 p-4 rounded-xl bg-white/50 hover:bg-white transition-all duration-300 hover:shadow-md transform hover:-translate-x-1"
                 >
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-glow">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white group-hover:scale-110 transition-all duration-300 shadow-glow">
                     {feature.icon}
                   </div>
                   <div className="flex-1">
@@ -150,22 +195,6 @@ const About: React.FC = () => {
                   </div>
                 </div>
               ))}
-            </div>
-
-            <div className="pt-4">
-              <Button variant="primary" size="lg" className="group shadow-glow">
-                <span className="flex items-center gap-2">
-                  Get a Quote
-                  <svg 
-                    className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" 
-                    fill="none" 
-                    stroke="#000000" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-              </Button>
             </div>
           </div>
 
@@ -210,36 +239,84 @@ const About: React.FC = () => {
 
         {/* Our Mission Section */}
         <div className="relative mb-24">
-          <div className="relative bg-gradient-to-br from-cream-100 via-warm-50 to-cream-200 rounded-3xl p-8 md:p-12 lg:p-16 overflow-hidden border-2 border-warm-300/50 shadow-xl">
-            {/* Background Pattern - Light beige with subtle grid */}
-            <div className="absolute inset-0 opacity-15">
+          <div className="relative rounded-3xl p-8 md:p-12 lg:p-16 overflow-hidden shadow-none md:shadow-2xl group">
+            {/* Animated Background Gradient - Mouse Tracking */}
+            <div 
+              className="hidden md:block absolute inset-0 opacity-20"
+              style={{
+                background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(59, 130, 246, 0.3) 0%, transparent 50%)`,
+                transition: 'background 0.3s ease-out',
+              }}
+            />
+
+            {/* Animated Grid Pattern */}
+            <div className="absolute inset-0 opacity-10">
               <div 
                 className="absolute inset-0"
                 style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236b7280' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                  backgroundImage: `
+                    linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
+                  `,
+                  backgroundSize: '50px 50px',
+                  animation: 'float 20s ease-in-out infinite',
                 }}
               />
             </div>
 
-            {/* Gradient Border Effect */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-cream-200/30 via-accent-100/40 to-cream-200/30 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            {/* Floating Geometric Shapes */}
+            <div className="absolute inset-0 overflow-hidden">
+              {/* Large Circles */}
+              <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl animate-float" />
+              <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl animate-float-delayed" />
+              
+              {/* Medium Circles */}
+              <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-primary-400/8 rounded-full blur-2xl animate-pulse-slow" />
+              <div className="absolute bottom-1/3 right-1/4 w-56 h-56 bg-accent-400/8 rounded-full blur-2xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+              
+              {/* Small Floating Orbs */}
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-4 h-4 bg-primary-400/40 rounded-full opacity-60 animate-float"
+                  style={{
+                    left: `${15 + i * 15}%`,
+                    top: `${20 + (i % 3) * 30}%`,
+                    animationDelay: `${i * 0.5}s`,
+                    animationDuration: `${4 + i}s`,
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Animated Border Gradient */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary-500/20 via-accent-500/30 to-primary-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+            
+            {/* Shine Effect on Hover */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
 
             <div className="relative z-10">
               <div className="text-center mb-12 animate-fade-in-up">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-100 text-accent-800 font-semibold text-sm uppercase tracking-wider mb-6 shadow-sm">
-                  <span className="w-2 h-2 bg-accent-500 rounded-full animate-pulse" />
-                  <span className="text-slate-900">Our Mission</span>
+                <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary-100 via-accent-100 to-primary-100 text-primary-800 font-semibold text-sm uppercase tracking-wider mb-8 shadow-lg border border-primary-200/50 backdrop-blur-sm">
+                  <span className="w-2.5 h-2.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full animate-pulse shadow-glow" />
+                  <span className="text-slate-900 font-bold">Our Mission</span>
+                  <span className="w-2.5 h-2.5 bg-gradient-to-r from-accent-500 to-primary-500 rounded-full animate-pulse shadow-glow" />
                 </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-slate-900 mb-6">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-slate-900 mb-8 leading-tight">
                   Empowering Progress Through{" "}
-                  <span className="text-gradient">Sustainable Energy</span>
+                  <span className="text-gradient-animated">
+                    Sustainable Energy
+                  </span>
                 </h2>
-                <div className="max-w-3xl mx-auto">
-                  <p className="text-lg md:text-xl text-slate-700 leading-relaxed mb-6 font-medium">
-                    To empower businesses and institutions with uninterrupted,
-                    sustainable power solutions that protect operations and fuel
-                    progress.
-                  </p>
+                <div className="max-w-3xl mx-auto space-y-5">
+                  <div className="relative">
+                    <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 to-accent-500 rounded-full opacity-60" />
+                    <p className="text-lg md:text-xl text-slate-800 leading-relaxed font-semibold pl-6">
+                      To empower businesses and institutions with uninterrupted,
+                      sustainable power solutions that protect operations and fuel
+                      progress.
+                    </p>
+                  </div>
                   <p className="text-base md:text-lg text-slate-600 leading-relaxed">
                     We believe in a future where reliable energy is accessible to all, 
                     driving innovation and growth while preserving our planet for generations to come.
@@ -247,27 +324,46 @@ const About: React.FC = () => {
                 </div>
               </div>
 
-              {/* Core Values with Enhanced Design */}
-              <div className="grid md:grid-cols-3 gap-6 mt-12">
+              {/* Core Values with Award-Style Design */}
+              <div className="grid md:grid-cols-3 gap-4 md:gap-6 mt-8 md:mt-16">
                 {values.map((value, index) => (
                   <div
                     key={index}
-                    className="group relative bg-white/90 backdrop-blur-sm rounded-2xl p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl animate-fade-in-up border-2 border-transparent hover:border-primary-200"
+                    className="group relative bg-white rounded-xl md:rounded-2xl p-5 md:p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-xl animate-fade-in-up border border-gray-200/50 shadow-md overflow-hidden"
                     style={{ animationDelay: `${0.3 + index * 0.1}s` }}
                   >
-                    {/* Gradient Background on Hover */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-300`} />
+                    {/* Unique Gradient Pattern from Corner */}
+                    <div className={`absolute inset-0 ${value.pattern === 'wavy-lines-purple' ? 'pattern-wavy-lines-purple' : 
+                      value.pattern === 'dots-blue-yellow' ? 'pattern-dots-blue-yellow' :
+                      value.pattern === 'stripes-yellow-black' ? 'pattern-stripes-yellow-black' :
+                      value.pattern === 'dots-green' ? 'pattern-dots-green' :
+                      value.pattern === 'stripes-orange-yellow' ? 'pattern-stripes-orange-yellow' :
+                      'pattern-dashes-red'} opacity-60`} />
                     
-                    <div className={`relative w-20 h-20 rounded-2xl bg-gradient-to-br ${value.gradient} flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-glow`}>
-                      {value.icon}
+                    {/* Content */}
+                    <div className="relative z-10">
+                      {/* Header with Icon and Date */}
+                      <div className="flex items-start justify-between mb-4">
+                        {/* Top-left Icon */}
+                        <div className={`${value.iconBg} w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center text-white text-xl md:text-2xl shadow-md`}>
+                          {value.icon}
+                        </div>
+                        {/* Top-right Date */}
+                        <span className="text-xs md:text-sm text-gray-500 font-medium">
+                          {value.date}
+                        </span>
+                      </div>
+                      
+                      {/* Title */}
+                      <h3 className="text-base md:text-lg font-bold text-slate-900 mb-2 leading-tight">
+                        {value.title}
+                      </h3>
+                      
+                      {/* Description */}
+                      <div className="text-xs md:text-sm text-gray-600">
+                        {value.description}
+                      </div>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-primary-600 transition-colors duration-300">
-                      {value.title}
-                    </h3>
-                    <p className="text-slate-600 leading-relaxed">{value.description}</p>
-                    
-                    {/* Decorative Element */}
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-accent-500 rounded-b-2xl transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                   </div>
                 ))}
               </div>
@@ -277,44 +373,63 @@ const About: React.FC = () => {
 
         {/* Experience/Stats Section */}
         <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-100 text-primary-800 font-semibold text-sm uppercase tracking-wider mb-6 shadow-sm">
-              <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" />
+          <div className="text-center mb-16">
+            {/* Enhanced Badge */}
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary-100 via-accent-100 to-primary-100 text-primary-800 font-bold text-sm uppercase tracking-wider mb-8 shadow-lg border border-primary-200/50 backdrop-blur-sm">
+              <span className="w-2.5 h-2.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full animate-pulse shadow-glow" />
               <span className="text-slate-900">Our Achievements</span>
+              <span className="w-2.5 h-2.5 bg-gradient-to-r from-accent-500 to-primary-500 rounded-full animate-pulse shadow-glow" />
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-slate-900 mb-4">
+            
+            {/* Enhanced Heading */}
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-slate-900 mb-6 leading-tight">
               Trusted Experience &{" "}
-              <span className="text-gradient">Proven Results</span>
+              <span className="text-gradient-animated">Proven Results</span>
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Years of expertise delivering reliable power solutions across industries
+            <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
+              Banking UPS solutions, online sales & service, hire basis, and rental (1–20 KVA)
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-            {stats.map((stat, index) => (
+          <div className="grid md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
+            {achievements.map((achievement, index) => (
               <div
                 key={index}
-                className="group relative bg-gradient-to-br from-warm-50/90 via-cream-50/90 to-white backdrop-blur-md rounded-3xl p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-glow-lg animate-fade-in-up border-2 border-warm-200/30 hover:border-primary-300/50 shadow-xl"
+                className="group relative bg-white rounded-xl md:rounded-2xl p-5 md:p-6 transform transition-all duration-300 hover:scale-105 hover:shadow-xl animate-fade-in-up border border-gray-200/50 shadow-md overflow-hidden"
                 style={{ animationDelay: `${0.5 + index * 0.1}s` }}
               >
-                {/* Gradient Background on Hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-5 rounded-3xl transition-opacity duration-300`} />
+                {/* Unique Gradient Pattern from Corner */}
+                <div className={`absolute inset-0 ${achievement.pattern === 'wavy-lines-purple' ? 'pattern-wavy-lines-purple' : 
+                  achievement.pattern === 'dots-blue-yellow' ? 'pattern-dots-blue-yellow' :
+                  achievement.pattern === 'stripes-yellow-black' ? 'pattern-stripes-yellow-black' :
+                  achievement.pattern === 'dots-green' ? 'pattern-dots-green' :
+                  achievement.pattern === 'stripes-orange-yellow' ? 'pattern-stripes-orange-yellow' :
+                  'pattern-dashes-red'} opacity-60`} />
                 
-                <div className="relative flex items-start justify-between mb-6">
-                  <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-glow`}>
-                    {stat.icon}
+                {/* Content */}
+                <div className="relative z-10">
+                  {/* Header with Icon and Label */}
+                  <div className="flex items-start justify-between mb-4">
+                    {/* Top-left Icon */}
+                    <div className={`${achievement.iconBg} w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center text-white text-xl md:text-2xl shadow-md`}>
+                      {achievement.icon}
+                    </div>
+                    {/* Top-right Label */}
+                    <span className="text-xs md:text-sm text-gray-500 font-semibold">
+                      {achievement.label}
+                    </span>
                   </div>
-                  <div className="text-5xl md:text-6xl font-bold text-gradient">
-                    {stat.value}
+                  
+                  {/* Title */}
+                  <h3 className="text-base md:text-lg font-bold text-slate-900 mb-2 leading-tight">
+                    {achievement.title}
+                  </h3>
+                  
+                  {/* Description */}
+                  <div className="text-xs md:text-sm text-gray-600 leading-relaxed">
+                    {achievement.location}
                   </div>
                 </div>
-                <p className="text-slate-700 text-lg font-semibold leading-relaxed">
-                  {stat.label}
-                </p>
-                
-                {/* Animated Bottom Bar */}
-                <div className={`absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r ${stat.gradient} rounded-b-3xl transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300`} />
               </div>
             ))}
           </div>

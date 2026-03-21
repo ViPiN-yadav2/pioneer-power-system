@@ -87,7 +87,7 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-2">
             <div className="mb-6">
               <h3 className="text-2xl font-bold text-gradient font-heading mb-4">
-                Pioneer Power System
+                Pioneer Power Systems
               </h3>
               <p className="text-slate-300 leading-relaxed mb-6">
                 Leading the energy revolution with innovative solutions that power a sustainable future. 
@@ -124,120 +124,13 @@ const Footer: React.FC = () => {
               </div>
             </div>
           </div>
-
-          {/* Company Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Company</h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-slate-300 hover:text-primary-400 transition-colors duration-200 flex items-center gap-2 group"
-                  >
-                    <span className="w-0 h-0.5 bg-primary-500 group-hover:w-4 transition-all duration-200" />
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Services</h4>
-            <ul className="space-y-3">
-              {footerLinks.services.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-slate-300 hover:text-primary-400 transition-colors duration-200 flex items-center gap-2 group"
-                  >
-                    <span className="w-0 h-0.5 bg-primary-500 group-hover:w-4 transition-all duration-200" />
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4 text-white">Support</h4>
-            <ul className="space-y-3">
-              {footerLinks.support.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-slate-300 hover:text-primary-400 transition-colors duration-200 flex items-center gap-2 group"
-                  >
-                    <span className="w-0 h-0.5 bg-primary-500 group-hover:w-4 transition-all duration-200" />
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Newsletter Signup */}
-        <div className="border-t border-slate-700 pt-8 mb-8">
-          <div className="max-w-md">
-            <h4 className="text-lg font-semibold mb-2 text-white">Stay Updated</h4>
-            <p className="text-slate-300 mb-4 text-sm">
-              Subscribe to our newsletter for the latest energy solutions and industry insights.
-            </p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-slate-800/50 border-2 border-slate-700 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-white placeholder-slate-400 transition-all duration-200"
-              />
-              <Button 
-                variant="energy" 
-                size="md"
-                className="shadow-glow-accent whitespace-nowrap"
-              >
-                Subscribe
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Social Links */}
-        <div className="border-t border-slate-700 pt-8 mb-8">
-          <h4 className="text-lg font-semibold mb-4 text-white">Follow Us</h4>
-          <div className="flex space-x-4">
-            {socialLinks.map((social, index) => (
-              <a
-                key={index}
-                href={social.href}
-                className="group w-12 h-12 bg-slate-800/50 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-gradient-to-br hover:from-primary-500 hover:to-accent-500 transition-all duration-300 transform hover:scale-110 hover:shadow-glow"
-                aria-label={social.name}
-              >
-                {social.icon}
-              </a>
-            ))}
-          </div>
         </div>
 
         {/* Bottom Footer */}
         <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-slate-400 text-sm">
-              © {currentYear} Pioneer Power System. All rights reserved.
-            </div>
-            
-            <div className="flex flex-wrap gap-6 text-sm">
-              {footerLinks.legal.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  className="text-slate-400 hover:text-primary-400 transition-colors duration-200"
-                >
-                  {link.name}
-                </a>
-              ))}
+              © {currentYear} Pioneer Power Systems. All rights reserved.
             </div>
           </div>
         </div>
