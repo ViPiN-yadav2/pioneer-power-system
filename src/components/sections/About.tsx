@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 // import Button from "@/components/ui/Button";
 
 const About: React.FC = () => {
@@ -203,9 +204,13 @@ const About: React.FC = () => {
             <div className="relative rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105 group">
               {/* Decorative gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-accent-500/5 to-transparent z-10 group-hover:from-primary-500/20 group-hover:via-accent-500/10 transition-all duration-300" />
-              <img
+              <Image
                 src="/about.png"
                 alt="Power backup system"
+                width={1200}
+                height={900}
+                quality={80}
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="w-full h-auto object-cover"
               />
               {/* Shine effect on hover */}

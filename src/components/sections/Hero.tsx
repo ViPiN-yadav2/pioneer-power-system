@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const Hero: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -21,10 +22,14 @@ const Hero: React.FC = () => {
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ borderRadius: '6px' }}>
       {/* Background Image */}
       <div className="absolute inset-0">
-        <img
-          src="/landingPage.png"
+        <Image
+          src="/landingPage.webp"
           alt="Pioneer Power Systems"
-          className="w-full h-full object-cover"
+          fill
+          priority
+          quality={80}
+          sizes="100vw"
+          className="object-cover"
           style={{ borderRadius: '6px' }}
         />
         {/* Dark Overlay for Text Readability */}
