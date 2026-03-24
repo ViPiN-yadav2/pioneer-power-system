@@ -1,66 +1,43 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import Button from "@/components/ui/Button";
+import React, { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 
 const Services: React.FC = () => {
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  // Extra slide = duplicate of first: animate UPS → Battery, then jump to snap 0 invisibly (same content).
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: false,
+    align: "start",
+    containScroll: "trimSnaps",
+  });
 
-  useEffect(() => {
-    // Only run on mobile
-    if (window.innerWidth >= 768) return;
+  const cardPatterns = [
+    {
+      overlay: "bg-amber-100/90",
+      clipPath: "polygon(35% 0, 100% 0, 100% 100%, 0% 100%)",
+      position: "top-0 right-0 bottom-0 w-3/4",
+      iconColor: "text-amber-600",
+    },
+    {
+      overlay: "bg-blue-100/90",
+      clipPath: "polygon(0% 0, 65% 0, 100% 100%, 0% 100%)",
+      position: "top-0 left-0 bottom-0 w-3/4",
+      iconColor: "text-blue-600",
+    },
+    {
+      overlay: "bg-emerald-100/90",
+      clipPath: "polygon(100% 0, 100% 100%, 0 0)",
+      position: "top-0 right-0 bottom-0 left-0",
+      iconColor: "text-emerald-600",
+    },
+    {
+      overlay: "bg-violet-100/90",
+      clipPath: "polygon(0 60%, 100% 0, 100% 100%, 0 100%)",
+      position: "top-0 right-0 bottom-0 left-0",
+      iconColor: "text-violet-600",
+    },
+  ];
 
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    const scrollCarousel = () => {
-      if (carousel) {
-        const firstCard = carousel.querySelector('[data-carousel-card]') as HTMLElement;
-        if (!firstCard) return;
-
-        const cardWidth = firstCard.offsetWidth + 16; // card width + gap (gap-4 = 16px)
-        const scrollAmount = carousel.scrollLeft + cardWidth;
-        const maxScroll = (carousel.scrollWidth / 2) - cardWidth; // Half because we duplicated cards
-
-        if (scrollAmount >= maxScroll) {
-          // Reset to start for infinite loop (seamless)
-          carousel.scrollTo({ left: 0, behavior: 'auto' });
-        } else {
-          carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
-        }
-      }
-    };
-
-    // Start auto-scroll
-    scrollIntervalRef.current = setInterval(scrollCarousel, 3000);
-
-    // Pause on hover/touch
-    const pauseScroll = () => {
-      if (scrollIntervalRef.current) {
-        clearInterval(scrollIntervalRef.current);
-      }
-    };
-
-    const resumeScroll = () => {
-      scrollIntervalRef.current = setInterval(scrollCarousel, 3000);
-    };
-
-    carousel.addEventListener('mouseenter', pauseScroll);
-    carousel.addEventListener('mouseleave', resumeScroll);
-    carousel.addEventListener('touchstart', pauseScroll);
-    carousel.addEventListener('touchend', resumeScroll);
-
-    return () => {
-      if (scrollIntervalRef.current) {
-        clearInterval(scrollIntervalRef.current);
-      }
-      carousel.removeEventListener('mouseenter', pauseScroll);
-      carousel.removeEventListener('mouseleave', resumeScroll);
-      carousel.removeEventListener('touchstart', pauseScroll);
-      carousel.removeEventListener('touchend', resumeScroll);
-    };
-  }, []);
   const services = [
     {
       title: "Battery",
@@ -74,27 +51,24 @@ const Services: React.FC = () => {
       ],
       icon: (
         <svg
-          className="w-8 h-8"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
+          strokeWidth={1.5}
           viewBox="0 0 24 24"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2.5}
             d="M4 7h16a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z"
           />
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2.5}
             d="M20 10v4"
           />
         </svg>
       ),
-      gradient: "from-emerald-500 via-green-500 to-emerald-600",
-      bgImage: "/battery.png",
     },
     {
       title: "Inverter",
@@ -108,21 +82,19 @@ const Services: React.FC = () => {
       ],
       icon: (
         <svg
-          className="w-8 h-8"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
+          strokeWidth={1.5}
           viewBox="0 0 24 24"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2.5}
             d="M13 10V3L4 14h7v7l9-11h-7z"
           />
         </svg>
       ),
-      gradient: "from-blue-500 via-cyan-500 to-blue-600",
-      bgImage: "/inverter.png",
     },
     {
       title: "Stabilizer",
@@ -136,21 +108,20 @@ const Services: React.FC = () => {
       ],
       icon: (
         <svg
-          className="w-8 h-8"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
+          strokeWidth={1.5}
           viewBox="0 0 24 24"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2.5}
+            strokeWidth={1.5}
             d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
           />
         </svg>
       ),
-      gradient: "from-amber-500 via-orange-500 to-amber-600",
-      bgImage: "/stabilizer.png",
     },
     {
       title: "UPS",
@@ -164,79 +135,85 @@ const Services: React.FC = () => {
       ],
       icon: (
         <svg
-          className="w-8 h-8"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
+          strokeWidth={1.5}
           viewBox="0 0 24 24"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2.5}
             d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
           />
         </svg>
       ),
-      gradient: "from-indigo-500 via-purple-500 to-indigo-600",
-      bgImage: "/grid-bg.png",
-    },
-    // {
-    //   title: "Microgrid Solutions",
-    //   description:
-    //     "Independent power systems for communities, campuses, and critical facilities.",
-    //   features: [
-    //     "Island mode operation",
-    //     "Renewable integration",
-    //     "Backup power",
-    //     "Community resilience",
-    //   ],
-    //   icon: (
-    //     <svg
-    //       className="w-8 h-8"
-    //       fill="none"
-    //       stroke="currentColor"
-    //       viewBox="0 0 24 24"
-    //     >
-    //       <path
-    //         strokeLinecap="round"
-    //         strokeLinejoin="round"
-    //         strokeWidth={2.5}
-    //         d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-    //       />
-    //     </svg>
-    //   ),
-    //   gradient: "from-rose-500 via-pink-500 to-rose-600",
-    //   bgImage: "/microgrid-bg.jpg",
-    // },
-    // {
-    //   title: "Energy Consulting",
-    //   description:
-    //     "Expert guidance on energy strategy, efficiency improvements, and sustainability planning.",
-    //   features: [
-    //     "Energy audits",
-    //     "Feasibility studies",
-    //     "Regulatory compliance",
-    //     "Cost optimization",
-    //   ],
-    //   icon: (
-    //     <svg
-    //       className="w-8 h-8"
-    //       fill="none"
-    //       stroke="currentColor"
-    //       viewBox="0 0 24 24"
-    //     >
-    //       <path
-    //         strokeLinecap="round"
-    //         strokeLinejoin="round"
-    //         strokeWidth={2.5}
-    //         d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-    //       />
-    //     </svg>
-    //   ),
-    //   gradient: "from-violet-500 via-purple-500 to-violet-600",
-    //   bgImage: "/consulting-bg.jpg",
-    // },
+    }
   ];
+
+  const mobileCarouselSlides = [...services, services[0]];
+  const cloneSlideIndex = mobileCarouselSlides.length - 1;
+
+  const [carouselDotIndex, setCarouselDotIndex] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const syncDots = () => {
+      const snap = emblaApi.selectedScrollSnap();
+      setCarouselDotIndex(snap >= cloneSlideIndex ? 0 : snap);
+    };
+
+    emblaApi.on("select", syncDots);
+    emblaApi.on("settle", syncDots);
+    syncDots();
+
+    return () => {
+      emblaApi.off("select", syncDots);
+      emblaApi.off("settle", syncDots);
+    };
+  }, [emblaApi, cloneSlideIndex]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    let intervalId: ReturnType<typeof setInterval>;
+
+    const jumpIfOnClone = () => {
+      if (emblaApi.selectedScrollSnap() === cloneSlideIndex) {
+        emblaApi.scrollTo(0, true);
+      }
+    };
+
+    const advance = () => {
+      if (emblaApi.canScrollNext()) {
+        emblaApi.scrollNext();
+      } else {
+        emblaApi.scrollTo(0, true);
+      }
+    };
+
+    const startAutoplay = () => {
+      intervalId = setInterval(advance, 3000);
+    };
+
+    const stopAutoplay = () => {
+      clearInterval(intervalId);
+    };
+
+    startAutoplay();
+
+    emblaApi.on("settle", jumpIfOnClone);
+    emblaApi.on("pointerDown", stopAutoplay);
+    emblaApi.on("pointerUp", startAutoplay);
+
+    return () => {
+      stopAutoplay();
+      emblaApi.off("settle", jumpIfOnClone);
+      emblaApi.off("pointerDown", stopAutoplay);
+      emblaApi.off("pointerUp", startAutoplay);
+    };
+  }, [emblaApi, cloneSlideIndex]);
 
   return (
     <section id="services" className="relative py-20 md:py-32 bg-gradient-to-b from-white via-cream-50 to-white overflow-hidden">
@@ -250,7 +227,7 @@ const Services: React.FC = () => {
         {/* Section Container with Shadow - Similar to Our Mission */}
         <div className="relative bg-white rounded-3xl p-0 md:p-8 lg:p-12 xl:p-16 overflow-hidden shadow-none md:shadow-2xl">
           {/* Header Section */}
-        <div className="text-center mb-12 animate-fade-in-up">
+        <div className="text-center mb-12 animate-fade-in-up px-5 sm:px-6 md:px-0">
           {/* Enhanced Badge */}
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary-100 via-accent-100 to-primary-100 text-primary-800 font-bold text-sm uppercase tracking-wider mb-6 shadow-lg border border-primary-200/50 backdrop-blur-sm">
             <span className="w-2.5 h-2.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full animate-pulse shadow-glow" />
@@ -295,160 +272,110 @@ const Services: React.FC = () => {
 
           {/* Services Grid - Carousel on Mobile */}
           <div className="mb-16">
-            {/* Mobile Carousel Container */}
-            <div 
-              ref={carouselRef}
-              className="md:hidden overflow-x-auto pb-4 -mx-6 px-6 scrollbar-hide snap-x snap-mandatory"
-            >
-              <div className="flex gap-4" style={{ width: 'max-content' }}>
-                {/* Duplicate cards for seamless loop */}
-                {[...services, ...services].map((service, index) => (
-                  <div
-                    key={`mobile-${index}`}
-                    data-carousel-card
-                    className={`group relative rounded-xl p-5 transform transition-all duration-500 hover:scale-105 hover:-translate-y-3 animate-fade-in-up border border-white/20 hover:border-white/40 shadow-md flex-shrink-0 snap-center overflow-hidden ${index === 0 ? 'ml-4' : ''}`}
-                    style={{ 
-                      animationDelay: `${(index % services.length) * 0.1}s`,
-                      width: 'calc(100vw - 4rem)',
-                      maxWidth: '320px'
-                    }}
-                  >
-                    {/* Background Image */}
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center rounded-xl"
-                      style={{ 
-                        backgroundImage: `url(${service.bgImage})`,
-                      }}
-                    />
-                    
-                    {/* Glass Effect Overlay - More transparent */}
-                    <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-xl" />
-                    
-                    {/* Glass shine effect - Subtle */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-transparent rounded-xl pointer-events-none" />
-                    
-                    {/* Text readability overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/20 rounded-xl pointer-events-none" />
-                    
-                    {/* Corner Accent - Always Visible */}
-                    <div className="absolute top-0 right-0 w-12 h-12 bg-gradient-to-br from-white/30 to-transparent rounded-bl-full z-10" />
-                    
-                    {/* Content - Above all layers */}
-                    <div className="relative z-10">
-                      {/* Text background for readability */}
-                      <div className="absolute inset-x-0 top-12 bottom-0 bg-white/30 backdrop-blur-xs rounded-xl -mx-2 -mb-2" />
-                      
-                      {/* Enhanced Icon Container */}
-                      <div className={`relative z-10 w-16 h-16 rounded-lg bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-all duration-500 shadow-glow overflow-hidden mx-auto`}>
-                        {/* Animated gradient overlay for shine - always visible */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent opacity-100" />
-                        {/* Glow ring effect - always visible */}
-                        <div className={`absolute -inset-1 rounded-lg bg-gradient-to-br ${service.gradient} opacity-40 blur-xl`} />
-                        {/* Icon with white color and enhanced styling */}
-                        <div className="relative z-10 transform scale-110 text-white drop-shadow-2xl filter">
+            {/* Mobile Carousel - Embla */}
+            <div className="md:hidden px-5 sm:px-6">
+              <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
+                <div className="flex" style={{ touchAction: "pan-y pinch-zoom" }}>
+                  {mobileCarouselSlides.map((service, index) => {
+                    const pattern = cardPatterns[index % cardPatterns.length];
+                    return (
+                    <div
+                      key={index === cloneSlideIndex ? "mobile-loop-clone" : `mobile-${index}`}
+                      className="flex-[0_0_100%] min-w-0 relative overflow-hidden rounded-lg border border-slate-200 bg-warm-50/50 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300"
+                    >
+                      {/* Pattern overlay - unique per card */}
+                      <div
+                        className={`absolute ${pattern.position} ${pattern.overlay}`}
+                        style={{ clipPath: pattern.clipPath }}
+                      />
+                      <div className="relative z-10 p-6">
+                        <div className={`w-12 h-12 rounded-lg bg-white/80 flex items-center justify-center ${pattern.iconColor} mb-4`}>
                           {service.icon}
                         </div>
-                      </div>
-
-                      <h3 className="relative z-10 text-lg font-bold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors duration-300 text-center drop-shadow-sm">
-                        {service.title}
-                      </h3>
-                      <p className="relative z-10 text-gray-900 mb-4 leading-relaxed text-xs text-center font-semibold drop-shadow-sm">
-                        {service.description}
-                      </p>
-
-                      <ul className="relative z-10 space-y-2 mb-4">
-                        {service.features.map((feature, featureIndex) => (
-                          <li
-                            key={featureIndex}
-                            className="flex items-center text-xs text-gray-900 font-semibold drop-shadow-sm"
-                          >
-                            <svg
-                              className="w-4 h-4 text-emerald-500 mr-2 flex-shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
+                        <h3 className="text-lg font-heading font-bold text-slate-900 mb-2 tracking-tight">
+                          {service.title}
+                        </h3>
+                        <p className="text-sm text-slate-600 mb-4 leading-relaxed font-medium">
+                          {service.description}
+                        </p>
+                        <ul className="space-y-2">
+                          {service.features.map((feature, featureIndex) => (
+                            <li
+                              key={featureIndex}
+                              className="flex items-center text-xs text-slate-600 font-medium"
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2.5}
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-
-                      {/* Bottom Border - Always Visible */}
-                      <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${service.gradient} rounded-b-xl`} />
+                              <svg
+                                className="w-4 h-4 text-slate-400 mr-2 flex-shrink-0"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                  </div>
+                  );})}
+                </div>
+              </div>
+              <div
+                className="flex justify-center items-center gap-2.5 pt-5 pb-1"
+                role="tablist"
+                aria-label="Service slides"
+              >
+                {services.map((_, i) => (
+                  <button
+                    key={`carousel-dot-${i}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={carouselDotIndex === i}
+                    aria-label={`Show service ${i + 1} of ${services.length}`}
+                    className={`rounded-full transition-all duration-300 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 ${
+                      carouselDotIndex === i
+                        ? "w-7 h-2 bg-primary-600 shadow-sm"
+                        : "w-2 h-2 bg-slate-300 hover:bg-slate-400"
+                    }`}
+                    onClick={() => emblaApi?.scrollTo(i)}
+                  />
                 ))}
               </div>
             </div>
 
             {/* Desktop Grid - 2x2 Layout for 4 Cards */}
             <div className="hidden md:grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-              {services.map((service, index) => (
+              {services.map((service, index) => {
+                const pattern = cardPatterns[index];
+                return (
                 <div
                   key={index}
-                  className="group relative rounded-3xl p-8 transform transition-all duration-500 hover:scale-105 hover:-translate-y-3 animate-fade-in-up border-2 border-white/20 hover:border-white/40 shadow-lg overflow-hidden"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="relative overflow-hidden rounded-lg border border-slate-200 bg-warm-50/50 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300"
                 >
-                  {/* Background Image */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center rounded-3xl"
-                    style={{ 
-                      backgroundImage: `url(${service.bgImage})`,
-                    }}
+                  {/* Pattern overlay - unique per card */}
+                  <div
+                    className={`absolute ${pattern.position} ${pattern.overlay}`}
+                    style={{ clipPath: pattern.clipPath }}
                   />
-                  
-                  {/* Glass Effect Overlay - More transparent */}
-                  <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-3xl" />
-                  
-                  {/* Glass shine effect - Subtle */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-transparent rounded-3xl pointer-events-none" />
-                  
-                  {/* Text readability overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-white/20 rounded-3xl pointer-events-none" />
-                  
-                  {/* Corner Accent - Always Visible */}
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-white/30 to-transparent rounded-bl-full z-10" />
-                  
-                  {/* Content - Above all layers */}
-                  <div className="relative z-10">
-                    {/* Text background for readability */}
-                    <div className="absolute inset-x-0 top-16 bottom-0 bg-white/30 backdrop-blur-xs rounded-3xl -mx-4 -mb-4" />
-                    
-                    {/* Enhanced Icon Container */}
-                    <div className={`relative z-10 w-24 h-24 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500 shadow-glow overflow-hidden`}>
-                      {/* Animated gradient overlay for shine - always visible */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-white/10 to-transparent opacity-100" />
-                      {/* Glow ring effect - always visible */}
-                      <div className={`absolute -inset-2 rounded-2xl bg-gradient-to-br ${service.gradient} opacity-40 blur-xl`} />
-                      {/* Icon with white color and enhanced styling */}
-                      <div className="relative z-10 transform scale-110 text-white drop-shadow-2xl filter">
-                        {service.icon}
-                      </div>
+                  <div className="relative z-10 p-8">
+                    <div className={`w-14 h-14 rounded-lg bg-white/80 flex items-center justify-center ${pattern.iconColor} mb-6`}>
+                      {service.icon}
                     </div>
-
-                    <h3 className="relative z-10 text-xl font-bold text-gray-900 mb-4 group-hover:text-primary-600 transition-colors duration-300 drop-shadow-sm">
+                    <h3 className="text-xl font-heading font-bold text-slate-900 mb-3 tracking-tight">
                       {service.title}
                     </h3>
-                    <p className="relative z-10 text-gray-900 mb-6 leading-relaxed text-sm font-semibold drop-shadow-sm">
+                    <p className="text-slate-600 mb-6 leading-relaxed font-medium">
                       {service.description}
                     </p>
-
-                    <ul className="relative z-10 space-y-3 mb-6">
+                    <ul className="space-y-3">
                       {service.features.map((feature, featureIndex) => (
                         <li
                           key={featureIndex}
-                          className="flex items-center text-sm text-gray-900 font-semibold drop-shadow-sm"
+                          className="flex items-center text-sm text-slate-600 font-medium"
                         >
                           <svg
-                            className="w-5 h-5 text-emerald-500 mr-3 flex-shrink-0"
+                            className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -456,7 +383,7 @@ const Services: React.FC = () => {
                             <path
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              strokeWidth={2.5}
+                              strokeWidth={2}
                               d="M5 13l4 4L19 7"
                             />
                           </svg>
@@ -465,68 +392,10 @@ const Services: React.FC = () => {
                       ))}
                     </ul>
                   </div>
-
-                  {/* Bottom Border - Always Visible */}
-                  <div className={`absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r ${service.gradient} rounded-b-3xl`} />
                 </div>
-              ))}
+              );})}
             </div>
           </div>
-
-        {/* CTA Section */}
-        {/* <div className="relative bg-gradient-to-br from-primary-50 via-white to-accent-50 rounded-3xl p-12 md:p-16 text-center overflow-hidden animate-fade-in-up border-2 border-primary-200/50" style={{ animationDelay: '0.6s' }}> */}
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-[0.03]">
-            <div 
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)`,
-                backgroundSize: '40px 40px',
-              }}
-            />
-          </div>
-
-          {/* Decorative Elements */}
-          {/* <div className="absolute top-10 right-10 w-32 h-32 bg-primary-400/10 rounded-full blur-3xl animate-float" />
-          <div className="absolute bottom-10 left-10 w-40 h-40 bg-accent-400/10 rounded-full blur-3xl animate-float-delayed" />
-
-          <div className="relative z-10">
-            <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-slate-900 mb-4">
-              Ready to Transform Your{" "}
-              <span className="text-gradient-animated">Energy Future?</span>
-            </h3>
-            <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed font-medium">
-              Let our experts design a custom energy solution that meets your
-              specific needs and budget.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                variant="energy"
-                size="lg"
-                className="shadow-glow-accent group"
-              >
-                <span className="flex items-center gap-2">
-                  Get Free Consultation
-                  <svg 
-                    className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-primary-500 text-primary-600 hover:bg-primary-50"
-              >
-                View Case Studies
-              </Button>
-            </div> */}
-          {/* </div> */}
-        {/* </div> */}
         </div>
       </div>
     </section>
