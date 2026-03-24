@@ -4,11 +4,13 @@ import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
+  display: "swap",
   variable: "--font-inter",
 });
 
 const poppins = Poppins({
   subsets: ["latin"],
+  display: "swap",
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-poppins",
 });
@@ -41,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${poppins.variable} font-sans antialiased`}
+        className={`${inter.variable} ${poppins.variable} ${inter.className} antialiased`}
       >
         {children}
       </body>
